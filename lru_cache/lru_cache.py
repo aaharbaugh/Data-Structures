@@ -24,12 +24,10 @@ class LRUCache:
   def get(self, key):
 
     current = self.doubleList.head
-
-    print(self.storage)
     
     #loop through each value in list. 
     while current:
-      print(self.storage)
+
       #find out where that key is in DLL, delete  
       if current.value == key:
 
@@ -60,17 +58,15 @@ class LRUCache:
     if key in self.storage:
       self.storage[key] = value
       self.get(key)
+      return
     #we check if length of dll is more than limit 
     elif self.doubleList.length == self.max:
       #remove value from tail
       self.storage.pop(self.doubleList.remove_from_tail())
       #add value to head
-      self.doubleList.add_to_head(key)
-      self.storage[key] = value
 
-    else:
-      self.doubleList.add_to_head(key)
-      self.storage[key] = value
+    self.doubleList.add_to_head(key)
+    self.storage[key] = value
 
 
 

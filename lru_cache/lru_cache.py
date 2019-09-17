@@ -1,3 +1,5 @@
+from doubly_linked_list import DoublyLinkedList
+
 class LRUCache:
   """
   Our LRUCache class keeps track of the max number of nodes it
@@ -7,7 +9,10 @@ class LRUCache:
   to every node stored in the cache.
   """
   def __init__(self, limit=10):
-    pass
+    self.max = limit
+
+    self.doubleList = DoublyLinkedList()
+    self.storage = {}
 
   """
   Retrieves the value associated with the given key. Also
@@ -17,8 +22,29 @@ class LRUCache:
   key-value pair doesn't exist in the cache. 
   """
   def get(self, key):
-    pass
 
+    current = self.doubleList.head
+
+    print(self.storage)
+    
+    #loop through each value in list. 
+    while current:
+      print(self.storage)
+      #find out where that key is in DLL, delete  
+      if current.value == key:
+
+        #we insert our value to front (add to head)
+        self.doubleList.move_to_front(current)
+
+        #we get the value at key from dictionary
+        #return dictionary[key]
+        return self.storage[key]
+
+      #move to next element
+      current = current.next
+
+    return None
+    
   """
   Adds the given key-value pair to the cache. The newly-
   added pair should be considered the most-recently used
@@ -30,4 +56,23 @@ class LRUCache:
   the newly-specified value. 
   """
   def set(self, key, value):
-    pass
+    #we check if dictionary[key] exists (if so we get it)
+    if key in self.storage:
+      self.storage[key] = value
+      self.get(key)
+    #we check if length of dll is more than limit 
+    elif self.doubleList.length == self.max:
+      #remove value from tail
+      self.storage.pop(self.doubleList.remove_from_tail())
+      #add value to head
+      self.doubleList.add_to_head(key)
+      self.storage[key] = value
+
+    else:
+      self.doubleList.add_to_head(key)
+      self.storage[key] = value
+
+
+
+    
+
